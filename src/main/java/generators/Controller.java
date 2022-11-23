@@ -70,16 +70,25 @@ public class Controller implements Runnable{
         return textCode;
     }
 
-    StringBuilder serviceProcess(StringBuilder textCode) {
-        textCode.append("public class " + controllerName + " {\n");
-        textCode = space(textCode);
-        textCode.append("private " + serviceName + " " + new StringBuilder(serviceName)
+    StringBuilder ObjectToVariable(String obj) {
+        return new StringBuilder(obj)
                 .deleteCharAt(0)
                 .reverse()
                 .append(Character
-                        .toLowerCase(serviceName
+                        .toLowerCase(obj
                                 .charAt(0)))
-                .reverse() + ";\n");
+                .reverse();
+    }
+
+    StringBuilder serviceProcess(StringBuilder textCode) {
+        textCode.append("public class " + controllerName + " {\n");
+        textCode = space(textCode);
+        textCode.append("   private " + serviceName + " " + ObjectToVariable(serviceName) + ";\n");
+        textCode = space(textCode);
+        textCode.append("   @AutoWired\n");
+        textCode.append("   public " + controllerName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
+        textCode.append("       " + ObjectToVariable(serviceName)+ ".this = " + ObjectToVariable(serviceName) + ";\n");
+        textCode.append("   }");
         return textCode;
     }
 
