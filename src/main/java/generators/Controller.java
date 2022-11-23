@@ -38,6 +38,12 @@ public class Controller implements Runnable{
     )
     String routes;
 
+    @CommandLine.Option(
+            names = {"-g", "--get"},
+            description = "adds the @GetMapping annotations with an empty method"
+    )
+    boolean hasGetMapping;
+
     void createFile() {
         try {
             controllerFile = new File(controllerName + ".java");
@@ -88,7 +94,17 @@ public class Controller implements Runnable{
         textCode.append("   @AutoWired\n");
         textCode.append("   public " + controllerName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
         textCode.append("       " + ObjectToVariable(serviceName)+ ".this = " + ObjectToVariable(serviceName) + ";\n");
-        textCode.append("   }");
+        textCode.append("   }\n");
+        return textCode;
+    }
+
+    StringBuilder mappingProcess(StringBuilder textCode) {
+        if(hasGetMapping) {
+            textCode.append("   @GetMapping\n");
+            textCode.append("   public  " + controllerName.replace("Controller", "") + "() {\n");
+            textCode = space(textCode);
+            textCode.append("   }\n");
+        }
         return textCode;
     }
 
@@ -102,6 +118,10 @@ public class Controller implements Runnable{
             textCode = requestMappingProcess(textCode);
 
             textCode = serviceProcess(textCode);
+
+            textCode = space(textCode);
+
+            textCode = mappingProcess(textCode);
 
             textCode = space(textCode);
 
