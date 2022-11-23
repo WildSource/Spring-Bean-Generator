@@ -2,6 +2,7 @@ package generators;
 
 import picocli.CommandLine;
 
+import javax.print.DocFlavor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,6 +44,12 @@ public class Controller implements Runnable{
             description = "adds the @GetMapping annotations with an empty method"
     )
     boolean hasGetMapping;
+
+    @CommandLine.Option(
+            names = {"--post"},
+            description = "adds @PostMapping annotations with an  empty method"
+    )
+    boolean hasPostMapping;
 
     void createFile() {
         try {
@@ -95,13 +102,25 @@ public class Controller implements Runnable{
         textCode.append("   public " + controllerName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
         textCode.append("       " + ObjectToVariable(serviceName)+ ".this = " + ObjectToVariable(serviceName) + ";\n");
         textCode.append("   }\n");
+        textCode = space(textCode);
         return textCode;
     }
 
     StringBuilder mappingProcess(StringBuilder textCode) {
         if(hasGetMapping) {
             textCode.append("   @GetMapping\n");
-            textCode.append("   public  " + controllerName.replace("Controller", "") + "() {\n");
+            textCode.append("   public  get" + controllerName.replace("Controller", "") + "() {\n");
+            textCode = space(textCode);
+            textCode.append("   }\n");
+            textCode = space(textCode);
+        }
+        return textCode;
+    }
+
+    StringBuilder postProcess(StringBuilder textCode) {
+        if(hasPostMapping) {
+            textCode.append("   @PostMapping\n");
+            textCode.append("   public  post" + controllerName.replace("Controller", "") + "() {\n");
             textCode = space(textCode);
             textCode.append("   }\n");
         }
@@ -119,11 +138,9 @@ public class Controller implements Runnable{
 
             textCode = serviceProcess(textCode);
 
-            textCode = space(textCode);
-
             textCode = mappingProcess(textCode);
 
-            textCode = space(textCode);
+            textCode = postProcess(textCode);
 
             textCode.append("}");
 
