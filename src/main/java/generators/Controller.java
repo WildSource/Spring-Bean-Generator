@@ -9,20 +9,27 @@ import java.io.IOException;
 @CommandLine.Command(
         name = "controller",
         description = "generate a spring boot controller",
-        mixinStandardHelpOptions = true
+        mixinStandardHelpOptions = true,
+        version = {"1.0.0"}
 )
 public class Controller implements Runnable{
     File controllerFile;
     @CommandLine.Parameters(
             description = "name of the class generated and of the controller"
     )
-    String controllerName = "";
+    String controllerName;
 
     @CommandLine.Option(
             names = {"-r", "--rest"},
             description = "add @RestController annotation"
     )
-    boolean isRestController = false;
+    boolean isRestController;
+
+    @CommandLine.Option(
+            names = {"-m", "--mapping"},
+            description = "adds a @RequestMapping annotations, if no args are feeded it defauls to \"/\""
+    )
+    String routes;
 
 
     @Override
@@ -45,6 +52,10 @@ public class Controller implements Runnable{
 
             if(isRestController) {
                 stringBuilder.append("@RestController\n");
+            }
+
+            if(routes != null) {
+                stringBuilder.append("@RequestMapping(\"" + routes + "\")\n");
             }
 
             stringBuilder.append("public class " + controllerName + " {\n");
