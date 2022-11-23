@@ -1,0 +1,1 @@
+public interface ComicRepository extends CrudRepository<Comic, Long> {}
