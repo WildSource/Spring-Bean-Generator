@@ -47,9 +47,21 @@ public class Controller implements Runnable{
 
     @CommandLine.Option(
             names = {"--post"},
-            description = "adds @PostMapping annotations with an  empty method"
+            description = "adds @PostMapping annotations with an empty method"
     )
     boolean hasPostMapping;
+
+    @CommandLine.Option(
+            names = {"--put"},
+            description = "adds @PutMapping annotations with an empty method"
+    )
+    boolean hasPutMapping;
+
+    @CommandLine.Option(
+            names = {"-d", "--delete"},
+            description = "adds @DeleteMapping annotations with an empty method"
+    )
+    boolean hasDeleteMapping;
 
     void createFile() {
         try {
@@ -123,6 +135,29 @@ public class Controller implements Runnable{
             textCode.append("   public  post" + controllerName.replace("Controller", "") + "() {\n");
             textCode = space(textCode);
             textCode.append("   }\n");
+            textCode = space(textCode);
+        }
+        return textCode;
+    }
+
+    StringBuilder putProcess(StringBuilder textCode) {
+        if(hasPutMapping) {
+            textCode.append("   @PutMapping\n");
+            textCode.append("   public  put" + controllerName.replace("Controller", "") + "() {\n");
+            textCode = space(textCode);
+            textCode.append("   }\n");
+            textCode = space(textCode);
+        }
+        return textCode;
+    }
+
+    StringBuilder deleteProcess(StringBuilder textCode) {
+        if(hasDeleteMapping) {
+            textCode.append("   @DeleteMapping\n");
+            textCode.append("   public  delete" + controllerName.replace("Controller", "") + "() {\n");
+            textCode = space(textCode);
+            textCode.append("   }\n");
+            textCode = space(textCode);
         }
         return textCode;
     }
@@ -141,6 +176,10 @@ public class Controller implements Runnable{
             textCode = mappingProcess(textCode);
 
             textCode = postProcess(textCode);
+
+            textCode = putProcess(textCode);
+
+            textCode = deleteProcess(textCode);
 
             textCode.append("}");
 
