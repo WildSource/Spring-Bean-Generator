@@ -14,6 +14,8 @@ import java.io.IOException;
 )
 public class Controller implements Runnable{
     File controllerFile;
+
+    StringBuilder textCode;
     @CommandLine.Parameters(
             description = "name of the class generated and of the controller"
     )
@@ -36,9 +38,7 @@ public class Controller implements Runnable{
     )
     String routes;
 
-
-    @Override
-    public void run() {
+    void createFile() {
         try {
             controllerFile = new File(controllerName + ".java");
             if (controllerFile.createNewFile()) {
@@ -50,35 +50,65 @@ public class Controller implements Runnable{
             System.out.println("An error occurred: This file already exist");
             e.printStackTrace();
         }
+    }
 
+    StringBuilder space(StringBuilder textCode) {
+        return textCode.append("\n");
+    }
+
+    StringBuilder restControllerProcess(StringBuilder textCode) {
+        if(isRestController) {
+            textCode.append("@RestController\n");
+        }
+        return textCode;
+    }
+
+    StringBuilder requestMappingProcess(StringBuilder textCode) {
+        if(routes != null) {
+            textCode.append("@RequestMapping(\"" + routes + "\")\n");
+        }
+        return textCode;
+    }
+
+    StringBuilder serviceProcess(StringBuilder textCode) {
+        textCode.append("public class " + controllerName + " {\n");
+        textCode = space(textCode);
+        textCode.append("private " + serviceName + " " + new StringBuilder(serviceName)
+                .deleteCharAt(0)
+                .reverse()
+                .append(Character
+                        .toLowerCase(serviceName
+                                .charAt(0)))
+                .reverse() + ";\n");
+        return textCode;
+    }
+
+    void writeToFile() {
         try {
             FileWriter writer = new FileWriter(controllerFile);
-            StringBuilder stringBuilder = new StringBuilder();
+            textCode = new StringBuilder();
 
-            if(isRestController) {
-                stringBuilder.append("@RestController\n");
-            }
+            textCode = restControllerProcess(textCode);
 
-            if(routes != null) {
-                stringBuilder.append("@RequestMapping(\"" + routes + "\")\n");
-            }
+            textCode = requestMappingProcess(textCode);
 
-            stringBuilder.append("public class " + controllerName + " {\n");
-            stringBuilder.append("\n");
-            stringBuilder.append("private " + serviceName + " " + new StringBuilder(serviceName)
-                    .deleteCharAt(0)
-                    .reverse()
-                    .append(Character
-                            .toLowerCase(serviceName
-                                    .charAt(0)))
-                    .reverse() + ";\n");
-            stringBuilder.append("\n");
-            stringBuilder.append("}");
+            textCode = serviceProcess(textCode);
 
-            writer.write(stringBuilder.toString());
+            textCode = space(textCode);
+
+            textCode.append("}");
+
+            writer.write(textCode.toString());
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void run() {
+        createFile();
+        writeToFile();
+    }
+
 }

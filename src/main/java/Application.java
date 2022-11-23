@@ -3,7 +3,7 @@ import picocli.CommandLine;
 
 public class Application {
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new Controller()).execute("AccountController", "AccountService");
+        int exitCode = new CommandLine(new Controller()).execute("AccountController", "AccountService", "-r", "-m=/v1/entity");
         System.exit(exitCode);
     }
 }
