@@ -19,6 +19,11 @@ public class Controller implements Runnable{
     )
     String controllerName;
 
+    @CommandLine.Parameters(
+            description = "name of the service which the controller uses"
+    )
+    String serviceName;
+
     @CommandLine.Option(
             names = {"-r", "--rest"},
             description = "add @RestController annotation"
@@ -59,6 +64,14 @@ public class Controller implements Runnable{
             }
 
             stringBuilder.append("public class " + controllerName + " {\n");
+            stringBuilder.append("\n");
+            stringBuilder.append("private " + serviceName + " " + new StringBuilder(serviceName)
+                    .deleteCharAt(0)
+                    .reverse()
+                    .append(Character
+                            .toLowerCase(serviceName
+                                    .charAt(0)))
+                    .reverse() + ";\n");
             stringBuilder.append("\n");
             stringBuilder.append("}");
 
