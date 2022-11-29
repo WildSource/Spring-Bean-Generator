@@ -91,24 +91,14 @@ public class Controller implements Runnable {
         return textCode;
     }
 
-    StringBuilder ObjectToVariable(String obj) {
-        return new StringBuilder(obj)
-                .deleteCharAt(0)
-                .reverse()
-                .append(Character
-                        .toLowerCase(obj
-                                .charAt(0)))
-                .reverse();
-    }
-
     StringBuilder serviceProcess(StringBuilder textCode) {
         textCode.append("public class " + controllerName + " {\n");
         textCode = WriteProcess.enter(textCode);
-        textCode.append("   private " + serviceName + " " + ObjectToVariable(serviceName) + ";\n");
+        textCode.append("   private " + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
         textCode = WriteProcess.enter(textCode);
         textCode.append("   @AutoWired\n");
-        textCode.append("   public " + controllerName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
-        textCode.append("       " + ObjectToVariable(serviceName) + ".this = " + ObjectToVariable(serviceName) + ";\n");
+        textCode.append("   public " + controllerName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ") {\n");
+        textCode.append("       " + WriteProcess.ObjectToVariable(serviceName) + ".this = " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
         textCode.append("   }\n");
         textCode = WriteProcess.enter(textCode);
         return textCode;
