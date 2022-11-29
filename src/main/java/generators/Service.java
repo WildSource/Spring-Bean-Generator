@@ -1,6 +1,7 @@
 package generators;
 
 import picocli.CommandLine;
+import util.WriteProcess;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -61,7 +62,7 @@ public class Service implements Runnable {
             textCode = new StringBuilder();
 
             textCode.append("@Service");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("public class " + serviceName + " {\n");
             textCode = space(textCode);
             textCode.append("   private " + repositoryName + " " + ObjectToVariable(repositoryName) + ";\n");
