@@ -13,8 +13,7 @@ import java.io.IOException;
         mixinStandardHelpOptions = true,
         version = {"1.0.0"}
 )
-public class Service implements Runnable {
-    File serviceFile;
+public class Service extends Generator implements Runnable {
 
     StringBuilder textCode;
 
@@ -28,50 +27,22 @@ public class Service implements Runnable {
     )
     String repositoryName;
 
-    StringBuilder space(StringBuilder textCode) {
-        return textCode.append("\n");
-    }
-
-    StringBuilder ObjectToVariable(String obj) {
-        return new StringBuilder(obj)
-                .deleteCharAt(0)
-                .reverse()
-                .append(Character
-                        .toLowerCase(obj
-                                .charAt(0)))
-                .reverse();
-    }
-
-    void createFile() {
-        try {
-            serviceFile = new File(serviceName + ".java");
-            if (serviceFile.createNewFile()) {
-                System.out.println("File created: " + serviceFile.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred: This file already exist");
-            e.printStackTrace();
-        }
-    }
-
     void writeToFile() {
         try {
-            FileWriter writer = new FileWriter(serviceFile);
+            FileWriter writer = new FileWriter(file);
             textCode = new StringBuilder();
 
             textCode.append("@Service");
             textCode = WriteProcess.enter(textCode);
             textCode.append("public class " + serviceName + " {\n");
             textCode = WriteProcess.enter(textCode);
-            textCode.append("   private " + repositoryName + " " + ObjectToVariable(repositoryName) + ";\n");
+            textCode.append("   private " + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
             textCode = WriteProcess.enter(textCode);
             textCode.append("   public " + serviceName + "() {}\n");
             textCode = WriteProcess.enter(textCode);
             textCode.append("   @Autowired\n");
-            textCode.append("   public " + serviceName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
-            textCode.append("       this." + ObjectToVariable(repositoryName) + " = " + ObjectToVariable(repositoryName) + ";\n");
+            textCode.append("   public " + serviceName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
+            textCode.append("       this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
             textCode.append("   }\n");
             textCode.append("}");
 
@@ -84,7 +55,7 @@ public class Service implements Runnable {
 
     @Override
     public void run() {
-        createFile();
+        createFile(serviceName);
         writeToFile();
     }
 }

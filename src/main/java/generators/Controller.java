@@ -13,9 +13,7 @@ import java.io.IOException;
         mixinStandardHelpOptions = true,
         version = {"1.0.0"}
 )
-public class Controller implements Runnable {
-    File controllerFile;
-
+public class Controller extends Generator implements Runnable {
     StringBuilder textCode;
     @CommandLine.Parameters(
             description = "name of the class generated and of the controller"
@@ -63,19 +61,6 @@ public class Controller implements Runnable {
     )
     boolean hasDeleteMapping;
 
-    void createFile() {
-        try {
-            controllerFile = new File(controllerName + ".java");
-            if (controllerFile.createNewFile()) {
-                System.out.println("File created: " + controllerFile.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred: This file already exist");
-            e.printStackTrace();
-        }
-    }
 
     StringBuilder restControllerProcess(StringBuilder textCode) {
         if (isRestController) {
@@ -150,7 +135,7 @@ public class Controller implements Runnable {
 
     void writeToFile() {
         try {
-            FileWriter writer = new FileWriter(controllerFile);
+            FileWriter writer = new FileWriter(file);
             textCode = new StringBuilder();
 
             textCode = restControllerProcess(textCode);
@@ -178,7 +163,7 @@ public class Controller implements Runnable {
 
     @Override
     public void run() {
-        createFile();
+        createFile(controllerName);
         writeToFile();
     }
 

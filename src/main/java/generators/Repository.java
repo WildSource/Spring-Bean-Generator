@@ -12,8 +12,7 @@ import java.io.IOException;
         mixinStandardHelpOptions = true,
         version = {"1.0.0"}
 )
-public class Repository implements Runnable{
-    File repositoryFile;
+public class Repository extends Generator implements Runnable {
 
     StringBuilder textCode;
 
@@ -22,23 +21,9 @@ public class Repository implements Runnable{
     )
     String repositoryName;
 
-    void createFile() {
-        try {
-            repositoryFile = new File(repositoryName + ".java");
-            if (repositoryFile.createNewFile()) {
-                System.out.println("File created: " + repositoryFile.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred: This file already exist");
-            e.printStackTrace();
-        }
-    }
-
     void writeToFile() {
         try {
-            FileWriter writer = new FileWriter(repositoryFile);
+            FileWriter writer = new FileWriter(file);
             textCode = new StringBuilder();
 
             textCode.append("public interface " + repositoryName + " extends CrudRepository<" + repositoryName.replace("Repository", "") + ", Long> {}");
@@ -52,7 +37,8 @@ public class Repository implements Runnable{
 
     @Override
     public void run() {
-        createFile();
+
+        createFile(repositoryName);
         writeToFile();
     }
 }
