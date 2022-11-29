@@ -64,11 +64,11 @@ public class Service implements Runnable {
             textCode.append("@Service");
             textCode = WriteProcess.enter(textCode);
             textCode.append("public class " + serviceName + " {\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   private " + repositoryName + " " + ObjectToVariable(repositoryName) + ";\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   public " + serviceName + "() {}\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   @Autowired\n");
             textCode.append("   public " + serviceName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
             textCode.append("       this." + ObjectToVariable(repositoryName) + " = " + ObjectToVariable(repositoryName) + ";\n");

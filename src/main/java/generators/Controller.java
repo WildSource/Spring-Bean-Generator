@@ -1,6 +1,7 @@
 package generators;
 
 import picocli.CommandLine;
+import util.WriteProcess;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -76,10 +77,6 @@ public class Controller implements Runnable {
         }
     }
 
-    StringBuilder space(StringBuilder textCode) {
-        return textCode.append("\n");
-    }
-
     StringBuilder restControllerProcess(StringBuilder textCode) {
         if (isRestController) {
             textCode.append("@RestController\n");
@@ -106,14 +103,14 @@ public class Controller implements Runnable {
 
     StringBuilder serviceProcess(StringBuilder textCode) {
         textCode.append("public class " + controllerName + " {\n");
-        textCode = space(textCode);
+        textCode = WriteProcess.enter(textCode);
         textCode.append("   private " + serviceName + " " + ObjectToVariable(serviceName) + ";\n");
-        textCode = space(textCode);
+        textCode = WriteProcess.enter(textCode);
         textCode.append("   @AutoWired\n");
         textCode.append("   public " + controllerName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
         textCode.append("       " + ObjectToVariable(serviceName) + ".this = " + ObjectToVariable(serviceName) + ";\n");
         textCode.append("   }\n");
-        textCode = space(textCode);
+        textCode = WriteProcess.enter(textCode);
         return textCode;
     }
 
@@ -121,9 +118,9 @@ public class Controller implements Runnable {
         if (hasGetMapping) {
             textCode.append("   @GetMapping\n");
             textCode.append("   public  get" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   }\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -132,9 +129,9 @@ public class Controller implements Runnable {
         if (hasPostMapping) {
             textCode.append("   @PostMapping\n");
             textCode.append("   public  post" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   }\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -143,9 +140,9 @@ public class Controller implements Runnable {
         if (hasPutMapping) {
             textCode.append("   @PutMapping\n");
             textCode.append("   public  put" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   }\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -154,9 +151,9 @@ public class Controller implements Runnable {
         if (hasDeleteMapping) {
             textCode.append("   @DeleteMapping\n");
             textCode.append("   public  delete" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
             textCode.append("   }\n");
-            textCode = space(textCode);
+            textCode = WriteProcess.enter(textCode);
         }
         return textCode;
     }
