@@ -2,7 +2,6 @@ package generators;
 
 import picocli.CommandLine;
 
-import javax.print.DocFlavor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +12,7 @@ import java.io.IOException;
         mixinStandardHelpOptions = true,
         version = {"1.0.0"}
 )
-public class Controller implements Runnable{
+public class Controller implements Runnable {
     File controllerFile;
 
     StringBuilder textCode;
@@ -82,14 +81,14 @@ public class Controller implements Runnable{
     }
 
     StringBuilder restControllerProcess(StringBuilder textCode) {
-        if(isRestController) {
+        if (isRestController) {
             textCode.append("@RestController\n");
         }
         return textCode;
     }
 
     StringBuilder requestMappingProcess(StringBuilder textCode) {
-        if(routes != null) {
+        if (routes != null) {
             textCode.append("@RequestMapping(\"" + routes + "\")\n");
         }
         return textCode;
@@ -112,14 +111,14 @@ public class Controller implements Runnable{
         textCode = space(textCode);
         textCode.append("   @AutoWired\n");
         textCode.append("   public " + controllerName + "(" + serviceName + " " + ObjectToVariable(serviceName) + ") {\n");
-        textCode.append("       " + ObjectToVariable(serviceName)+ ".this = " + ObjectToVariable(serviceName) + ";\n");
+        textCode.append("       " + ObjectToVariable(serviceName) + ".this = " + ObjectToVariable(serviceName) + ";\n");
         textCode.append("   }\n");
         textCode = space(textCode);
         return textCode;
     }
 
     StringBuilder mappingProcess(StringBuilder textCode) {
-        if(hasGetMapping) {
+        if (hasGetMapping) {
             textCode.append("   @GetMapping\n");
             textCode.append("   public  get" + controllerName.replace("Controller", "") + "() {\n");
             textCode = space(textCode);
@@ -130,7 +129,7 @@ public class Controller implements Runnable{
     }
 
     StringBuilder postProcess(StringBuilder textCode) {
-        if(hasPostMapping) {
+        if (hasPostMapping) {
             textCode.append("   @PostMapping\n");
             textCode.append("   public  post" + controllerName.replace("Controller", "") + "() {\n");
             textCode = space(textCode);
@@ -141,7 +140,7 @@ public class Controller implements Runnable{
     }
 
     StringBuilder putProcess(StringBuilder textCode) {
-        if(hasPutMapping) {
+        if (hasPutMapping) {
             textCode.append("   @PutMapping\n");
             textCode.append("   public  put" + controllerName.replace("Controller", "") + "() {\n");
             textCode = space(textCode);
@@ -152,7 +151,7 @@ public class Controller implements Runnable{
     }
 
     StringBuilder deleteProcess(StringBuilder textCode) {
-        if(hasDeleteMapping) {
+        if (hasDeleteMapping) {
             textCode.append("   @DeleteMapping\n");
             textCode.append("   public  delete" + controllerName.replace("Controller", "") + "() {\n");
             textCode = space(textCode);
