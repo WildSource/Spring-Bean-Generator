@@ -17,7 +17,7 @@ public final class WriteProcess {
      * Turns a String with a capital letter (Object name) to a String without a capital letter (variable name)
      *
      * @param obj
-     * @return  variable
+     * @return variable
      */
     public static StringBuilder ObjectToVariable(String obj) {
         return new StringBuilder(obj)
@@ -28,4 +28,9 @@ public final class WriteProcess {
                                 .charAt(0)))
                 .reverse();
     }
+
+    public static StringBuilder AddAnnotations(StringBuilder textCode, String annotationName) {
+        return textCode.append("@" + annotationName + "\n");
+    }
+
 }

@@ -64,14 +64,16 @@ public class Controller extends Generator implements Runnable {
 
     StringBuilder restControllerProcess(StringBuilder textCode) {
         if (isRestController) {
-            textCode.append("@RestController\n");
+            textCode = WriteProcess
+                    .AddAnnotations(textCode, "RestController");
         }
         return textCode;
     }
 
     StringBuilder requestMappingProcess(StringBuilder textCode) {
         if (routes != null) {
-            textCode.append("@RequestMapping(\"" + routes + "\")\n");
+            textCode = WriteProcess
+                    .AddAnnotations(textCode, "RequestMapping(\"" + routes + "\")\n");
         }
         return textCode;
     }
