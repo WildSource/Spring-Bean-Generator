@@ -5,7 +5,7 @@ import picocli.CommandLine;
 
 public class Application {
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new Controller()).execute("ComicController", "ComicService");
+        int exitCode = new CommandLine(new Service()).execute("ComicService", "ComicRepository");
         System.exit(exitCode);
     }
 }

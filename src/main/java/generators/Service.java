@@ -40,7 +40,8 @@ public class Service extends Generator implements Runnable {
             textCode = WriteProcess.enter(textCode);
             textCode.append("   public " + serviceName + "() {}\n");
             textCode = WriteProcess.enter(textCode);
-            textCode.append("   @Autowired\n");
+            textCode = WriteProcess.tab(textCode);
+            textCode = WriteProcess.AddAnnotations(textCode, "AutoWired");
             textCode.append("   public " + serviceName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
             textCode.append("       this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
             textCode.append("   }\n");

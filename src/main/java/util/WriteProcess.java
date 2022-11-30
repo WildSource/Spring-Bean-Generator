@@ -30,7 +30,13 @@ public final class WriteProcess {
     }
 
     public static StringBuilder AddAnnotations(StringBuilder textCode, String annotationName) {
-        return textCode.append("@" + annotationName + "\n");
+        return textCode
+                .append("@" + annotationName + "\n");
+    }
+
+    public static StringBuilder tab(StringBuilder textCode) {
+        return textCode
+                .append("    ");
     }
 
 }
