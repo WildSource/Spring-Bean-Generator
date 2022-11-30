@@ -33,7 +33,7 @@ public class Service extends Generator implements Runnable {
             textCode = new StringBuilder();
 
             textCode = WriteProcess.AddAnnotations(textCode, "Service");
-            textCode.append("public class " + serviceName + " {\n");
+            textCode = WriteProcess.writeClass(textCode, serviceName);
             textCode = WriteProcess.enter(textCode);
             textCode = WriteProcess.tab(textCode);
             textCode.append("private " + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");

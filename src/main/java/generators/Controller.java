@@ -83,7 +83,7 @@ public class Controller extends Generator implements Runnable {
     }
 
     StringBuilder serviceProcess(StringBuilder textCode) {
-        textCode.append("public class " + controllerName + " {\n");
+        textCode = WriteProcess.writeClass(textCode, controllerName);
         textCode = WriteProcess.enter(textCode);
         textCode = WriteProcess.tab(textCode);
         textCode.append("private " + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ";\n");

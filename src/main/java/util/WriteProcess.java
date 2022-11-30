@@ -39,4 +39,14 @@ public final class WriteProcess {
                 .append("    ");
     }
 
+    /**
+     * This class writes the boilerplate java class definition
+     * @param textCode StringBuilder with the generated code itself
+     * @param className Name of the class to be generated
+     * @return  StringBuilder of the generated code
+     */
+    public static StringBuilder writeClass(StringBuilder textCode, String className) {
+        return textCode.append("public class " + className + " {\n");
+    }
+
 }
