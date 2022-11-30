@@ -32,19 +32,24 @@ public class Service extends Generator implements Runnable {
             FileWriter writer = new FileWriter(file);
             textCode = new StringBuilder();
 
-            textCode.append("@Service");
-            textCode = WriteProcess.enter(textCode);
+            textCode = WriteProcess.AddAnnotations(textCode, "Service");
             textCode.append("public class " + serviceName + " {\n");
             textCode = WriteProcess.enter(textCode);
-            textCode.append("   private " + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+            textCode = WriteProcess.tab(textCode);
+            textCode.append("private " + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
             textCode = WriteProcess.enter(textCode);
-            textCode.append("   public " + serviceName + "() {}\n");
+            textCode = WriteProcess.tab(textCode);
+            textCode.append("public " + serviceName + "() {}\n");
             textCode = WriteProcess.enter(textCode);
             textCode = WriteProcess.tab(textCode);
             textCode = WriteProcess.AddAnnotations(textCode, "AutoWired");
-            textCode.append("   public " + serviceName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
-            textCode.append("       this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
-            textCode.append("   }\n");
+            textCode = WriteProcess.tab(textCode);
+            textCode.append("public " + serviceName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
+            textCode = WriteProcess.tab(textCode);
+            textCode = WriteProcess.tab(textCode);
+            textCode.append("this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+            textCode = WriteProcess.tab(textCode);
+            textCode.append("}\n");
             textCode.append("}");
 
             writer.write(textCode.toString());
