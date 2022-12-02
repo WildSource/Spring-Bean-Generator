@@ -3,7 +3,6 @@ package generators;
 import picocli.CommandLine;
 import util.WriteProcess;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -14,6 +13,9 @@ import java.io.IOException;
         version = {"1.0.0"}
 )
 public class Controller extends Generator implements Runnable {
+    /**
+     * all the generated code is stored inside this stringbuilder and is written to a file at the end
+     */
     StringBuilder textCode;
     @CommandLine.Parameters(
             description = "name of the class generated and of the controller"
@@ -62,18 +64,29 @@ public class Controller extends Generator implements Runnable {
     boolean hasDeleteMapping;
 
 
+    /**
+     * Adds either the @Controller annotation or @RestController depending on the option flags
+     *
+     * @param textCode
+     * @return StringBuilder (code) with a controller annotation
+     */
     StringBuilder restControllerProcess(StringBuilder textCode) {
         if (isRestController) {
             textCode = WriteProcess
                     .AddAnnotations(textCode, "RestController");
-        }
-        else {
+        } else {
             textCode = WriteProcess
-                    .AddAnnotations(textCode,"Controller");
+                    .AddAnnotations(textCode, "Controller");
         }
         return textCode;
     }
 
+    /**
+     * Adds a @RequestMapping annotations with specified routes only if -m or --mapping flag is on
+     *
+     * @param textCode
+     * @return StringBuilder (code) with a requestmapping annotation
+     */
     StringBuilder requestMappingProcess(StringBuilder textCode) {
         if (routes != null) {
             textCode = WriteProcess
@@ -82,6 +95,13 @@ public class Controller extends Generator implements Runnable {
         return textCode;
     }
 
+    /**
+     * this process is mandatory to generate a controller. If a service does not exist it will still write the needed code.
+     * This generates more than half of the code.
+     *
+     * @param textCode
+     * @return StringBuilder (code) with class definition
+     */
     StringBuilder serviceProcess(StringBuilder textCode) {
         textCode = WriteProcess.writeClass(textCode, controllerName);
         textCode = WriteProcess.enter(textCode);
@@ -89,7 +109,7 @@ public class Controller extends Generator implements Runnable {
         textCode.append("private " + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
         textCode = WriteProcess.enter(textCode);
         textCode = WriteProcess.tab(textCode);
-        textCode = WriteProcess.AddAnnotations(textCode,"AutoWired");
+        textCode = WriteProcess.AddAnnotations(textCode, "AutoWired");
         textCode = WriteProcess.tab(textCode);
         textCode.append("public " + controllerName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ") {\n");
         textCode = WriteProcess.tab(textCode);
@@ -101,6 +121,12 @@ public class Controller extends Generator implements Runnable {
         return textCode;
     }
 
+    /**
+     * If the get flag is on , it generates a get(bean name) method
+     *
+     * @param textCode
+     * @return getMethod
+     */
     StringBuilder mappingProcess(StringBuilder textCode) {
         if (hasGetMapping) {
             textCode = WriteProcess.tab(textCode);
@@ -115,6 +141,12 @@ public class Controller extends Generator implements Runnable {
         return textCode;
     }
 
+    /**
+     * If the post flag is on, it generates a post method
+     *
+     * @param textCode
+     * @return postMethod
+     */
     StringBuilder postProcess(StringBuilder textCode) {
         if (hasPostMapping) {
             textCode = WriteProcess.tab(textCode);
@@ -129,10 +161,16 @@ public class Controller extends Generator implements Runnable {
         return textCode;
     }
 
+    /**
+     * If the put flag is on, it generates a put method
+     *
+     * @param textCode
+     * @return putMethod
+     */
     StringBuilder putProcess(StringBuilder textCode) {
         if (hasPutMapping) {
             textCode = WriteProcess.tab(textCode);
-            textCode = WriteProcess.AddAnnotations(textCode,"PutMapping");
+            textCode = WriteProcess.AddAnnotations(textCode, "PutMapping");
             textCode = WriteProcess.tab(textCode);
             textCode.append("public  put" + controllerName.replace("Controller", "") + "() {\n");
             textCode = WriteProcess.enter(textCode);
@@ -143,6 +181,12 @@ public class Controller extends Generator implements Runnable {
         return textCode;
     }
 
+    /**
+     * If the delete flag is on, it generates a delete method
+     *
+     * @param textCode
+     * @return putMethod
+     */
     StringBuilder deleteProcess(StringBuilder textCode) {
         if (hasDeleteMapping) {
             textCode = WriteProcess.tab(textCode);
@@ -161,6 +205,8 @@ public class Controller extends Generator implements Runnable {
         try {
             FileWriter writer = new FileWriter(file);
             textCode = new StringBuilder();
+            //StringBuilder is funneled through the methods pipelines
+            //concentrating on implementing features before optimizing it
 
             textCode = restControllerProcess(textCode);
 

@@ -14,6 +14,9 @@ import java.io.IOException;
 )
 public class Repository extends Generator implements Runnable {
 
+    /**
+     * all the generated code is stored inside this stringbuilder and is written to a file at the end
+     */
     StringBuilder textCode;
 
     @CommandLine.Parameters(
@@ -35,6 +38,9 @@ public class Repository extends Generator implements Runnable {
         }
     }
 
+    /**
+     * generator logic
+     */
     @Override
     public void run() {
 

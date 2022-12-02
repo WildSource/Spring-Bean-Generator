@@ -15,6 +15,9 @@ import java.io.IOException;
 )
 public class Service extends Generator implements Runnable {
 
+    /**
+     * all the generated code is stored inside this stringbuilder and is written to a file at the end
+     */
     StringBuilder textCode;
 
     @CommandLine.Parameters(
