@@ -15,7 +15,7 @@ public class Application {
          * The class feeded in is the command chosen and the thread executes the run method from the Runnable interface
          * with the arguments.
          */
-        int exitCode = new CommandLine(new Controller()).execute("-h");
+        int exitCode = new CommandLine(new Service()).execute("ComicService", "ServiceRepository");
         System.exit(exitCode);
     }
 }
