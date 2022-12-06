@@ -6,8 +6,12 @@ import picocli.CommandLine;
  */
 public class Application {
     public static void main(String[] args) {
-        new CommandLine(new TopCommand())
-                .execute(args);
+        CommandLine commandLine = new CommandLine(new TopCommand());
+        if (args.length == 0) {
+            commandLine.execute("-h");
+        } else {
+            commandLine.execute(args);
+        }
 
     }
 }
