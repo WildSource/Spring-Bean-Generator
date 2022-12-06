@@ -3,7 +3,7 @@ package generators;
 import picocli.CommandLine;
 
 @CommandLine.Command(
-        name = "sbg",
+        name = "TopCommand",
         subcommands = {
                 Controller.class,
                 Repository.class,
