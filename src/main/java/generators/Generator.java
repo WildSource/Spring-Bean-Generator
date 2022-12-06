@@ -1,5 +1,7 @@
 package generators;
 
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -7,6 +9,8 @@ import java.io.IOException;
  * This class host the createFileMethod basically to avoid writing this method over and over again
  */
 public abstract class Generator {
+    @CommandLine.ParentCommand
+    TopCommand parentCommand;
     File file;
 
     void createFile(String name) {
