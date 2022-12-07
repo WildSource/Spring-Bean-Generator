@@ -73,4 +73,87 @@ public final class WriteProcess {
         return textCode.append("public class " + className + " {\n");
     }
 
+    /**
+     * Writes a void method definition without params and without closing brackets
+     * 
+     * @return StringBuilder with a method definition
+     */
+    public static StringBuilder writeVoidMethod(StringBuilder textCode, String methodName, boolean isPublic) {
+        textCode = WriteProcess.tab(textCode);
+        textCode.append(isPublicMethod(isPublic) + " void " + methodName + "() {");
+        return textCode;
+    }
+
+    /**
+     *  Writes a method that returns something without parameters
+     *
+     * @return generated StringBuilder with a method definition appended
+     */
+    public static StringBuilder writeReturnMethod(StringBuilder textCode, String methodName, boolean isPublic, String methodReturnObject) {
+        textCode = WriteProcess.tab(textCode);
+        textCode.append(isPublicMethod(isPublic) + " " + methodReturnObject + " " + methodName + "() {");
+        return textCode;
+    }
+
+    /**
+     *  Writes a void method definition with params and without closing brackets
+     *
+     * @param textCode
+     * @param methodName
+     * @param isPublic
+     * @param listOfParam
+     * @return
+     */
+    public static StringBuilder writeVoidMethodWithParam(StringBuilder textCode, String methodName, boolean isPublic, String[] listOfParam) {
+        textCode = WriteProcess.tab(textCode);
+        textCode.append(isPublicMethod(isPublic) + " void " + methodName + "(" + listOfParamProcess(listOfParam));
+        textCode.append(") {");
+        return textCode;
+    }
+
+    /**
+     *  Writes a method that returns something with parameters
+     *
+     * @return generated StringBuilder with a method definition containing params appended
+     */
+    public static StringBuilder writeReturnMethodWithParams(StringBuilder textCode, String methodName, boolean isPublic, String methodReturnObject, String[] listOfParam) {
+        textCode = WriteProcess.tab(textCode);
+        textCode.append(isPublicMethod(isPublic) + " " + methodReturnObject + " " + methodName + "(" + listOfParamProcess(listOfParam));
+        textCode.append(") {");
+        return textCode;
+    }
+
+    /**
+     * Turns an array to a formatted string of parameters
+     *
+     * each strings of the array must be formatted like this "Object objectName"
+     * 
+     * @param list
+     * @return formatted Strings of parameters
+     */
+    private static String listOfParamProcess(String[] list) {
+        StringBuilder buffer = new StringBuilder();
+        for (String param : list) {
+            buffer.append(param + ", ");
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * Returns either a "public" or "private" string depending on the boolean received as param
+     * aka method for refactoring not meant to be used
+     *
+     * @param isPublic
+     * @return
+     */
+    private static String isPublicMethod(boolean isPublic) {
+        String methodRange;
+        if(isPublic) {
+            methodRange = "public";
+        }
+        else {
+            methodRange = "private";
+        }
+        return methodRange;
+    }
 }
