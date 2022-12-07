@@ -14,4 +14,12 @@ public class Application {
         }
 
     }
+
+    /*
+    public static void main(String[] args) {
+        CommandLine commandLine = new CommandLine(new TopCommand());
+        int status = commandLine.execute("controller", "ComicController", "ComicService");
+        System.exit(status);
+    }
+     */
 }

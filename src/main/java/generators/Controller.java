@@ -201,40 +201,33 @@ public class Controller extends Generator implements Runnable {
         return textCode;
     }
 
-    void writeToFile() {
-        try {
-            FileWriter writer = new FileWriter(file);
-            textCode = new StringBuilder();
-            //StringBuilder is funneled through the methods pipelines
-            //concentrating on implementing features before optimizing it
+    StringBuilder textCodeProcess() {
+        textCode = new StringBuilder();
+        //StringBuilder is funneled through the methods pipelines
+        //concentrating on implementing features before optimizing it
 
-            textCode = restControllerProcess(textCode);
+        textCode = restControllerProcess(textCode);
 
-            textCode = requestMappingProcess(textCode);
+        textCode = requestMappingProcess(textCode);
 
-            textCode = serviceProcess(textCode);
+        textCode = serviceProcess(textCode);
 
-            textCode = mappingProcess(textCode);
+        textCode = mappingProcess(textCode);
 
-            textCode = postProcess(textCode);
+        textCode = postProcess(textCode);
 
-            textCode = putProcess(textCode);
+        textCode = putProcess(textCode);
 
-            textCode = deleteProcess(textCode);
+        textCode = deleteProcess(textCode);
 
-            textCode.append("}");
-
-            writer.write(textCode.toString());
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        textCode.append("}");
+        return textCode;
     }
 
     @Override
     public void run() {
         createFile(controllerName);
-        writeToFile();
+        writeToFile(textCodeProcess());
     }
 
 }

@@ -3,6 +3,7 @@ package generators;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -24,6 +25,17 @@ public abstract class Generator {
         } catch (IOException e) {
             System.out.println("An error occurred: This file already exist");
             e.printStackTrace();
+        }
+    }
+
+    void writeToFile(StringBuilder textCode) {
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.write(textCode.toString());
+            writer.close();
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

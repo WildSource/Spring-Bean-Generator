@@ -2,10 +2,6 @@ package generators;
 
 import picocli.CommandLine;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 @CommandLine.Command(
         name = "repository",
         description = "generate a spring boot repository",
@@ -24,27 +20,18 @@ public class Repository extends Generator implements Runnable {
     )
     String repositoryName;
 
-    void writeToFile() {
-        try {
-            FileWriter writer = new FileWriter(file);
-            textCode = new StringBuilder();
-
-            textCode.append("public interface " + repositoryName + " extends CrudRepository<" + repositoryName.replace("Repository", "") + ", Long> {}");
-
-            writer.write(textCode.toString());
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    StringBuilder textCodeProcess() {
+        textCode = new StringBuilder();
+        textCode.append("public interface " + repositoryName + " extends CrudRepository<" + repositoryName.replace("Repository", "") + ", Long> {}");
+        return textCode;
     }
 
     /**
-     * generator logic
+     * Generator logic
      */
     @Override
     public void run() {
-
         createFile(repositoryName);
-        writeToFile();
+        writeToFile(textCodeProcess());
     }
 }
