@@ -7,24 +7,25 @@ import util.WriteProcess;
         name = "repository",
         description = "generate a spring boot repository",
         mixinStandardHelpOptions = true,
-        version = {"1.0.0"}
+        version = {"1.0.1"}
 )
 public class Repository extends Generator implements Runnable {
 
     /**
      * all the generated code is stored inside this stringbuilder and is written to a file at the end
      */
-    StringBuilder textCode;
+    private StringBuilder textCode;
 
     @CommandLine.Parameters(
             description = "name of the class generated and of the repository"
     )
-    String repositoryName;
+    private String repositoryName;
 
     StringBuilder textCodeProcess() {
-        textCode = new StringBuilder();
-        textCode = WriteProcess.AddAnnotations(textCode, "Repository");
-        textCode.append("public interface " + repositoryName + " extends CrudRepository<" + repositoryName.replace("Repository", "") + ", Long> {}");
+        setTextCode(new StringBuilder());
+        setTextCode(WriteProcess.AddAnnotations(textCode, "Repository"));
+        // probably shouldn't use a get method for setting stuff but it's temporary
+        getTextCode().append("public interface " + getRepositoryName() + " extends CrudRepository<" + getRepositoryName().replace("Repository", "") + ", Long> {}");
         return textCode;
     }
 
@@ -35,5 +36,21 @@ public class Repository extends Generator implements Runnable {
     public void run() {
         createFile(repositoryName);
         writeToFile(textCodeProcess());
+    }
+
+    public StringBuilder getTextCode() {
+        return textCode;
+    }
+
+    public void setTextCode(StringBuilder textCode) {
+        this.textCode = textCode;
+    }
+
+    public String getRepositoryName() {
+        return repositoryName;
+    }
+
+    public void setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
     }
 }

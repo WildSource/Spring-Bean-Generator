@@ -7,7 +7,7 @@ import util.WriteProcess;
         name = "controller",
         description = "generate a spring boot controller",
         mixinStandardHelpOptions = true,
-        version = {"1.0.0"}
+        version = {"1.0.1"}
 )
 public class Controller extends Generator implements Runnable {
     /**

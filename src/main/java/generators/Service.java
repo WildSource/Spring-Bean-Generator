@@ -7,7 +7,7 @@ import util.WriteProcess;
         name = "service",
         description = "generate a spring boot service",
         mixinStandardHelpOptions = true,
-        version = {"1.0.0"}
+        version = {"1.0.1"}
 )
 public class Service extends Generator implements Runnable {
 
