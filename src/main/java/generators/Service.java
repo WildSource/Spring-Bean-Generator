@@ -33,7 +33,7 @@ public class Service extends Generator implements Runnable {
         textCode = WriteProcess.writeClass(textCode, serviceName);
         textCode = WriteProcess.enter(textCode);
         textCode = WriteProcess.tab(textCode);
-        textCode.append("private " + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+        textCode.append("private " + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
         textCode = WriteProcess.enter(textCode);
         textCode = WriteProcess.tab(textCode);
         textCode.append("public " + serviceName + "() {}\n");
@@ -41,7 +41,7 @@ public class Service extends Generator implements Runnable {
         textCode = WriteProcess.tab(textCode);
         textCode = WriteProcess.AddAnnotations(textCode, "AutoWired");
         textCode = WriteProcess.tab(textCode);
-        textCode.append("public " + serviceName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
+        textCode.append("public " + serviceName + "(" + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
         textCode = WriteProcess.tab(textCode);
         textCode = WriteProcess.tab(textCode);
         textCode.append("this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");

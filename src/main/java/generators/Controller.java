@@ -3,9 +3,6 @@ package generators;
 import picocli.CommandLine;
 import util.WriteProcess;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
 @CommandLine.Command(
         name = "controller",
         description = "generate a spring boot controller",
@@ -114,7 +111,7 @@ public class Controller extends Generator implements Runnable {
         textCode.append("public " + controllerName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ") {\n");
         textCode = WriteProcess.tab(textCode);
         textCode = WriteProcess.tab(textCode);
-        textCode.append(WriteProcess.ObjectToVariable(serviceName) + ".this = " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
+        textCode.append("this." + WriteProcess.ObjectToVariable(serviceName) + " = " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
         textCode = WriteProcess.tab(textCode);
         textCode.append("}\n");
         textCode = WriteProcess.enter(textCode);
