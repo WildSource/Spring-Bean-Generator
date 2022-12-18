@@ -14,41 +14,64 @@ public class Service extends Generator implements Runnable {
     /**
      * all the generated code is stored inside this stringbuilder and is written to a file at the end
      */
-    StringBuilder textCode;
+    private StringBuilder textCode;
 
     @CommandLine.Parameters(
             description = {"name of the service generated"}
     )
-    String serviceName;
+    private String serviceName;
 
     @CommandLine.Parameters(
             description = "name of the repository which the service uses"
     )
-    String repositoryName;
+    private String repositoryName;
 
-    StringBuilder textCodeProcess() {
-        textCode = new StringBuilder();
+    private void textCodeProcess() {
+        setTextCode(new StringBuilder());
 
-        textCode = WriteProcess.AddAnnotations(textCode, "Service");
-        textCode = WriteProcess.writeClass(textCode, serviceName);
-        textCode = WriteProcess.enter(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("private " + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
-        textCode = WriteProcess.enter(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("public " + serviceName + "() {}\n");
-        textCode = WriteProcess.enter(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode = WriteProcess.AddAnnotations(textCode, "AutoWired");
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("public " + serviceName + "(" + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
-        textCode = WriteProcess.tab(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("}\n");
-        textCode.append("}");
+        setTextCode(WriteProcess.AddAnnotations(textCode, "Service"));
+        setTextCode(WriteProcess.writeClass(textCode, serviceName));
+        setTextCode(WriteProcess.enter(textCode));
+        setTextCode(WriteProcess.tab(textCode));
+        getTextCode().append("private " + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+        setTextCode(WriteProcess.enter(textCode));
+        setTextCode(WriteProcess.tab(textCode));
+        getTextCode().append("public " + serviceName + "() {}\n");
+        setTextCode(WriteProcess.enter(textCode));
+        setTextCode(WriteProcess.tab(textCode));
+        setTextCode(WriteProcess.AddAnnotations(textCode, "AutoWired"));
+        setTextCode(WriteProcess.tab(textCode));
+        getTextCode().append("public " + serviceName + "(" + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
+        setTextCode(WriteProcess.tab(textCode));
+        setTextCode(WriteProcess.tab(textCode));
+        getTextCode().append("this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+        setTextCode(WriteProcess.tab(textCode));
+        getTextCode().append("}\n");
+        getTextCode().append("}");
+    }
+
+    public StringBuilder getTextCode() {
         return textCode;
+    }
+
+    public void setTextCode(StringBuilder textCode) {
+        this.textCode = textCode;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getRepositoryName() {
+        return repositoryName;
+    }
+
+    public void setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
     }
 
     /**
@@ -56,7 +79,8 @@ public class Service extends Generator implements Runnable {
      */
     @Override
     public void run() {
-        createFile(serviceName);
-        writeToFile(textCodeProcess());
+        createFile(getServiceName());
+        textCodeProcess();
+        writeToFile(getTextCode());
     }
 }
