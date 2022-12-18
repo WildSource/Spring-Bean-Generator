@@ -1,6 +1,7 @@
 package generators;
 
 import picocli.CommandLine;
+import util.WriteProcess;
 
 @CommandLine.Command(
         name = "repository",
@@ -22,6 +23,7 @@ public class Repository extends Generator implements Runnable {
 
     StringBuilder textCodeProcess() {
         textCode = new StringBuilder();
+        textCode = WriteProcess.AddAnnotations(textCode, "Repository");
         textCode.append("public interface " + repositoryName + " extends CrudRepository<" + repositoryName.replace("Repository", "") + ", Long> {}");
         return textCode;
     }
