@@ -1,0 +1,8 @@
+generators\TopCommand.class
+generators\Service.class
+util\WriteProcess.class
+generators\New.class
+generators\Repository.class
+generators\Controller.class
+generators\Generator.class
+Application.class
