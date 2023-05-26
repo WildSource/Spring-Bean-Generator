@@ -16,7 +16,7 @@ public abstract class Generator {
 
     void createFile(String name) {
         try {
-            file = new File(name + ".java");
+            file = new File("src/main/java" + name + ".java");
             if (file.createNewFile()) {
                 System.out.println("File created: " + file.getName());
             } else {

@@ -23,11 +23,17 @@ public class Service extends Generator implements Runnable {
 
     private String repositoryName;
 
-    public Service() {}
+    public Service() {
+    }
 
     public Service(String name) {
-        this.serviceName = name + "Service";
-        this.repositoryName = name + "Repository";
+        if (name.contains("Service")) {
+            this.serviceName = name;
+            this.repositoryName = name;
+        } else {
+            this.serviceName = name + "Service";
+            this.repositoryName = name + "Repository";
+        }
     }
 
     private void textCodeProcess() {

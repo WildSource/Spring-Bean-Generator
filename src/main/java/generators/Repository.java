@@ -25,7 +25,11 @@ public class Repository extends Generator implements Runnable {
     }
 
     public Repository(String name) {
-        this.repositoryName = name + "Repository";
+        if (name.contains("Repository")) {
+            this.repositoryName = name;
+        } else {
+            this.repositoryName = name + "Repository";
+        }
     }
 
     StringBuilder textCodeProcess() {
