@@ -21,9 +21,6 @@ public class Service extends Generator implements Runnable {
     )
     private String serviceName;
 
-    @CommandLine.Parameters(
-            description = "name of the repository which the service uses"
-    )
     private String repositoryName;
 
     public Service() {}
@@ -86,6 +83,10 @@ public class Service extends Generator implements Runnable {
      */
     @Override
     public void run() {
+        Service service = new Service(serviceName);
+        this.serviceName = service.getServiceName();
+        this.repositoryName = service.getRepositoryName();
+
         createFile(getServiceName());
         textCodeProcess();
         writeToFile(getTextCode());
