@@ -21,9 +21,6 @@ public class Controller extends Generator implements Runnable {
     )
     String controllerName;
 
-    @CommandLine.Parameters(
-            description = "name of the service which the controller uses"
-    )
     String serviceName;
 
     @CommandLine.Option(
@@ -231,6 +228,10 @@ public class Controller extends Generator implements Runnable {
 
     @Override
     public void run() {
+        Controller controller = new Controller(controllerName);
+        this.controllerName = controller.getControllerName();
+        this.serviceName = controller.getServiceName();
+
         createFile(controllerName);
         writeToFile(textCodeProcess());
     }
