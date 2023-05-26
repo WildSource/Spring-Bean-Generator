@@ -26,6 +26,13 @@ public class Service extends Generator implements Runnable {
     )
     private String repositoryName;
 
+    public Service() {}
+
+    public Service(String name) {
+        this.serviceName = name + "Service";
+        this.repositoryName = name + "Repository";
+    }
+
     private void textCodeProcess() {
         setTextCode(new StringBuilder());
 
@@ -33,18 +40,18 @@ public class Service extends Generator implements Runnable {
         setTextCode(WriteProcess.writeClass(textCode, serviceName));
         setTextCode(WriteProcess.enter(textCode));
         setTextCode(WriteProcess.tab(textCode));
-        getTextCode().append("private " + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+        getTextCode().append("private ").append(repositoryName).append(" ").append(WriteProcess.ObjectToVariable(repositoryName)).append(";\n");
         setTextCode(WriteProcess.enter(textCode));
         setTextCode(WriteProcess.tab(textCode));
-        getTextCode().append("public " + serviceName + "() {}\n");
+        getTextCode().append("public ").append(serviceName).append("() {}\n");
         setTextCode(WriteProcess.enter(textCode));
         setTextCode(WriteProcess.tab(textCode));
         setTextCode(WriteProcess.AddAnnotations(textCode, "AutoWired"));
         setTextCode(WriteProcess.tab(textCode));
-        getTextCode().append("public " + serviceName + "(" + repositoryName + " " + WriteProcess.ObjectToVariable(repositoryName) + ") {\n");
+        getTextCode().append("public ").append(serviceName).append("(").append(repositoryName).append(" ").append(WriteProcess.ObjectToVariable(repositoryName)).append(") {\n");
         setTextCode(WriteProcess.tab(textCode));
         setTextCode(WriteProcess.tab(textCode));
-        getTextCode().append("this." + WriteProcess.ObjectToVariable(repositoryName) + " = " + WriteProcess.ObjectToVariable(repositoryName) + ";\n");
+        getTextCode().append("this.").append(WriteProcess.ObjectToVariable(repositoryName)).append(" = ").append(WriteProcess.ObjectToVariable(repositoryName)).append(";\n");
         setTextCode(WriteProcess.tab(textCode));
         getTextCode().append("}\n");
         getTextCode().append("}");

@@ -3,6 +3,8 @@ package generators;
 import picocli.CommandLine;
 import util.WriteProcess;
 
+import javax.naming.ldap.Control;
+
 @CommandLine.Command(
         name = "controller",
         description = "generate a spring boot controller",
@@ -60,6 +62,12 @@ public class Controller extends Generator implements Runnable {
     )
     boolean hasDeleteMapping;
 
+    public Controller() {}
+
+    public Controller(String name) {
+        this.controllerName = name + "Controller";
+        this.serviceName = name + "Service";
+    }
 
     /**
      * Adds either the @Controller annotation or @RestController depending on the option flags
@@ -69,10 +77,10 @@ public class Controller extends Generator implements Runnable {
      */
     StringBuilder restControllerProcess(StringBuilder textCode) {
         if (isRestController) {
-            textCode = WriteProcess
+            WriteProcess
                     .AddAnnotations(textCode, "RestController");
         } else {
-            textCode = WriteProcess
+            WriteProcess
                     .AddAnnotations(textCode, "Controller");
         }
         return textCode;
@@ -86,7 +94,7 @@ public class Controller extends Generator implements Runnable {
      */
     StringBuilder requestMappingProcess(StringBuilder textCode) {
         if (routes != null) {
-            textCode = WriteProcess
+            WriteProcess
                     .AddAnnotations(textCode, "RequestMapping(\"" + routes + "\")\n");
         }
         return textCode;
@@ -100,21 +108,21 @@ public class Controller extends Generator implements Runnable {
      * @return StringBuilder (code) with class definition
      */
     StringBuilder serviceProcess(StringBuilder textCode) {
-        textCode = WriteProcess.writeClass(textCode, controllerName);
-        textCode = WriteProcess.enter(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("private " + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
-        textCode = WriteProcess.enter(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode = WriteProcess.AddAnnotations(textCode, "AutoWired");
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("public " + controllerName + "(" + serviceName + " " + WriteProcess.ObjectToVariable(serviceName) + ") {\n");
-        textCode = WriteProcess.tab(textCode);
-        textCode = WriteProcess.tab(textCode);
-        textCode.append("this." + WriteProcess.ObjectToVariable(serviceName) + " = " + WriteProcess.ObjectToVariable(serviceName) + ";\n");
-        textCode = WriteProcess.tab(textCode);
+        WriteProcess.writeClass(textCode, controllerName);
+        WriteProcess.enter(textCode);
+        WriteProcess.tab(textCode);
+        textCode.append("private ").append(serviceName).append(" ").append(WriteProcess.ObjectToVariable(serviceName)).append(";\n");
+        WriteProcess.enter(textCode);
+        WriteProcess.tab(textCode);
+        WriteProcess.AddAnnotations(textCode, "AutoWired");
+        WriteProcess.tab(textCode);
+        textCode.append("public ").append(controllerName).append("(").append(serviceName).append(" ").append(WriteProcess.ObjectToVariable(serviceName)).append(") {\n");
+        WriteProcess.tab(textCode);
+        WriteProcess.tab(textCode);
+        textCode.append("this.").append(WriteProcess.ObjectToVariable(serviceName)).append(" = ").append(WriteProcess.ObjectToVariable(serviceName)).append(";\n");
+        WriteProcess.tab(textCode);
         textCode.append("}\n");
-        textCode = WriteProcess.enter(textCode);
+        WriteProcess.enter(textCode);
         return textCode;
     }
 
@@ -126,14 +134,14 @@ public class Controller extends Generator implements Runnable {
      */
     StringBuilder mappingProcess(StringBuilder textCode) {
         if (hasGetMapping) {
-            textCode = WriteProcess.tab(textCode);
-            textCode = WriteProcess.AddAnnotations(textCode, "GetMapping");
-            textCode = WriteProcess.tab(textCode);
-            textCode.append("public  get" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = WriteProcess.enter(textCode);
-            textCode = WriteProcess.tab(textCode);
+            WriteProcess.tab(textCode);
+            WriteProcess.AddAnnotations(textCode, "GetMapping");
+            WriteProcess.tab(textCode);
+            textCode.append("public  get").append(controllerName.replace("Controller", "")).append("() {\n");
+            WriteProcess.enter(textCode);
+            WriteProcess.tab(textCode);
             textCode.append("}\n");
-            textCode = WriteProcess.enter(textCode);
+            WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -146,14 +154,14 @@ public class Controller extends Generator implements Runnable {
      */
     StringBuilder postProcess(StringBuilder textCode) {
         if (hasPostMapping) {
-            textCode = WriteProcess.tab(textCode);
-            textCode = WriteProcess.AddAnnotations(textCode, "PostMapping");
-            textCode = WriteProcess.tab(textCode);
-            textCode.append("public  post" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = WriteProcess.enter(textCode);
-            textCode = WriteProcess.tab(textCode);
+            WriteProcess.tab(textCode);
+            WriteProcess.AddAnnotations(textCode, "PostMapping");
+            WriteProcess.tab(textCode);
+            textCode.append("public  post").append(controllerName.replace("Controller", "")).append("() {\n");
+            WriteProcess.enter(textCode);
+            WriteProcess.tab(textCode);
             textCode.append("}\n");
-            textCode = WriteProcess.enter(textCode);
+            WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -166,14 +174,14 @@ public class Controller extends Generator implements Runnable {
      */
     StringBuilder putProcess(StringBuilder textCode) {
         if (hasPutMapping) {
-            textCode = WriteProcess.tab(textCode);
-            textCode = WriteProcess.AddAnnotations(textCode, "PutMapping");
-            textCode = WriteProcess.tab(textCode);
-            textCode.append("public  put" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = WriteProcess.enter(textCode);
-            textCode = WriteProcess.tab(textCode);
+            WriteProcess.tab(textCode);
+            WriteProcess.AddAnnotations(textCode, "PutMapping");
+            WriteProcess.tab(textCode);
+            textCode.append("public  put").append(controllerName.replace("Controller", "")).append("() {\n");
+            WriteProcess.enter(textCode);
+            WriteProcess.tab(textCode);
             textCode.append("}\n");
-            textCode = WriteProcess.enter(textCode);
+            WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -186,14 +194,14 @@ public class Controller extends Generator implements Runnable {
      */
     StringBuilder deleteProcess(StringBuilder textCode) {
         if (hasDeleteMapping) {
-            textCode = WriteProcess.tab(textCode);
-            textCode = WriteProcess.AddAnnotations(textCode, "DeleteMapping");
-            textCode = WriteProcess.tab(textCode);
-            textCode.append("public  delete" + controllerName.replace("Controller", "") + "() {\n");
-            textCode = WriteProcess.enter(textCode);
-            textCode = WriteProcess.tab(textCode);
+            WriteProcess.tab(textCode);
+            WriteProcess.AddAnnotations(textCode, "DeleteMapping");
+            WriteProcess.tab(textCode);
+            textCode.append("public  delete").append(controllerName.replace("Controller", "")).append("() {\n");
+            WriteProcess.enter(textCode);
+            WriteProcess.tab(textCode);
             textCode.append("}\n");
-            textCode = WriteProcess.enter(textCode);
+            WriteProcess.enter(textCode);
         }
         return textCode;
     }
@@ -227,4 +235,75 @@ public class Controller extends Generator implements Runnable {
         writeToFile(textCodeProcess());
     }
 
+    public StringBuilder getTextCode() {
+        return textCode;
+    }
+
+    public void setTextCode(StringBuilder textCode) {
+        this.textCode = textCode;
+    }
+
+    public String getControllerName() {
+        return controllerName;
+    }
+
+    public void setControllerName(String controllerName) {
+        this.controllerName = controllerName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public boolean isRestController() {
+        return isRestController;
+    }
+
+    public void setRestController(boolean restController) {
+        isRestController = restController;
+    }
+
+    public String getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(String routes) {
+        this.routes = routes;
+    }
+
+    public boolean isHasGetMapping() {
+        return hasGetMapping;
+    }
+
+    public void setHasGetMapping(boolean hasGetMapping) {
+        this.hasGetMapping = hasGetMapping;
+    }
+
+    public boolean isHasPostMapping() {
+        return hasPostMapping;
+    }
+
+    public void setHasPostMapping(boolean hasPostMapping) {
+        this.hasPostMapping = hasPostMapping;
+    }
+
+    public boolean isHasPutMapping() {
+        return hasPutMapping;
+    }
+
+    public void setHasPutMapping(boolean hasPutMapping) {
+        this.hasPutMapping = hasPutMapping;
+    }
+
+    public boolean isHasDeleteMapping() {
+        return hasDeleteMapping;
+    }
+
+    public void setHasDeleteMapping(boolean hasDeleteMapping) {
+        this.hasDeleteMapping = hasDeleteMapping;
+    }
 }

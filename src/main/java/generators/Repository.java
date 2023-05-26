@@ -21,11 +21,17 @@ public class Repository extends Generator implements Runnable {
     )
     private String repositoryName;
 
+    public Repository() {}
+
+    public Repository(String name) {
+        this.repositoryName = name + "Repository";
+    }
+
     StringBuilder textCodeProcess() {
         setTextCode(new StringBuilder());
         setTextCode(WriteProcess.AddAnnotations(textCode, "Repository"));
         // probably shouldn't use a get method for setting stuff but it's temporary
-        getTextCode().append("public interface " + getRepositoryName() + " extends CrudRepository<" + getRepositoryName().replace("Repository", "") + ", Long> {}");
+        getTextCode().append("public interface ").append(getRepositoryName()).append(" extends CrudRepository<").append(getRepositoryName().replace("Repository", "")).append(", Long> {}");
         return textCode;
     }
 

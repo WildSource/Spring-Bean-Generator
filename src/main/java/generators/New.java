@@ -18,11 +18,13 @@ public class New extends Generator implements Runnable {
 
     @Override
     public void run() {
-        Repository repository = new Repository();
+        Repository repository = new Repository(name);
+        repository.run();
 
+        Service service = new Service(name);
+        service.run();
 
-       new Thread(repository, "repositoryThread").start();
-       new Thread(new Service(), "serviceThread").start();
-       new Thread(new Controller(), "controllerThread").start();
+        Controller controller = new Controller(name);
+        controller.run();
     }
 }
