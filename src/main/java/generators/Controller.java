@@ -59,11 +59,17 @@ public class Controller extends Generator implements Runnable {
     )
     boolean hasDeleteMapping;
 
-    public Controller() {}
+    public Controller() {
+    }
 
     public Controller(String name) {
-        this.controllerName = name + "Controller";
-        this.serviceName = name + "Service";
+        if (name.contains("Controller")) {
+            this.controllerName = name;
+            this.serviceName = name;
+        } else {
+            this.controllerName = name + "Controller";
+            this.serviceName = name + "Service";
+        }
     }
 
     /**
