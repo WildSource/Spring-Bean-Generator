@@ -21,7 +21,8 @@ public class Repository extends Generator implements Runnable {
     )
     private String repositoryName;
 
-    public Repository() {}
+    public Repository() {
+    }
 
     public Repository(String name) {
         this.repositoryName = name + "Repository";
@@ -40,7 +41,9 @@ public class Repository extends Generator implements Runnable {
      */
     @Override
     public void run() {
-        createFile(repositoryName);
+        Repository repository = new Repository(repositoryName);
+        this.repositoryName = repository.getRepositoryName();
+        createFile(this.repositoryName);
         writeToFile(textCodeProcess());
     }
 
